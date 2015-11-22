@@ -50,7 +50,7 @@
 						watch: true
 					},
 					files: [{
-						src: ['<%= settings.assets %>/js/main.js'],
+						src: ['<%= settings.assets %>/js/*.js'],
 						dest: '<%= settings.prototype %>/js/bundle.js'
 					}]
 				},
