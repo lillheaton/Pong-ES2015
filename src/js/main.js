@@ -1,4 +1,5 @@
-import {Game} from "./game.js";
+import {Game} from "./game";
+import {Time} from "./util/time"
 
 class Pong {
 	constructor(){
@@ -11,13 +12,17 @@ class Pong {
 		// Create Game 
 		this.game = new Game(this.canvas.width, this.canvas.height);
 
+		// Game time
+		this.time = new Time();
+
 		// Start main loop
 		this.loop();
 	}
 
 	loop() {
 		window.requestAnimationFrame(() => { this.loop() });
-		this.game.update();
+		this.time.update();
+		this.game.update(this.time);
 		this.game.draw(this.ctx);
 	}
 }
