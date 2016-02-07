@@ -1,4 +1,4 @@
-import {PaddleHandler} from "./paddleHandler"
+import {GameHandler} from "./gameHandler"
 
 export var gameWindow = {};
 
@@ -9,18 +9,18 @@ export class Game {
 		gameWindow.height = height;
 		window.onkeydown = s => { this.keys[s.keyCode] = true; };
 		window.onkeyup = s => { this.keys[s.keyCode] = false; }
-
-		this.paddleHandler = new PaddleHandler(this);
+ 
+		this.gameHandler = new GameHandler(this);
 	}
 
 	update(time) {
-		this.paddleHandler.update(time);
+		this.gameHandler.update(time);
 	}
 
 	draw(ctx) {
 		ctx.fillStyle = "black";
 		ctx.fillRect(0, 0, gameWindow.width, gameWindow.height);
 
-		this.paddleHandler.draw(ctx);
+		this.gameHandler.draw(ctx);
 	}
 }

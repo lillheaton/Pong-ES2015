@@ -1,3 +1,4 @@
+import {Rectangle} from "./rectangle"
 import {gameWindow} from "./game"
 
 const settings = {
@@ -5,13 +6,21 @@ const settings = {
 	height: 90
 }
 
-export class Paddle {
-	constructor(x, y){
-		this.x = x;
-		this.y = y;
+export class Paddle extends Rectangle {
+	constructor(x, y, isAi){
+		super(x, y, settings.width, settings.height)
+		
+		this.ai = isAi;
+		this.speed = 0;
+		this.acceleration = 10;
 	}
 
-	update(time){
+	update(time, ball){
+		this._calculateAi(ball);
+
+		this.speed *= 0.95;
+		this.y += this.speed / time.elapsedMs;
+
 		if(this.y < 0){
 			this.y = 0;
 		} 
@@ -25,8 +34,30 @@ export class Paddle {
 		ctx.fillRect(this.x, this.y, settings.width, settings.height);
 	}
 
-	moveY(value) {
-		this.y += value;
+	moveUp() {
+		this.speed += this.acceleration * -1;
+	}
+
+	moveDown(){
+		this.speed += this.acceleration;
+	}
+
+	center(){
+		return {
+			x: this.x + settings.width / 2,
+			y: this.y + settings.height / 2
+		}
+	}
+
+	_calculateAi(ball){
+		if(!this.ai)
+			return;
+
+		let centerY = this.y + settings.height / 2;
+		if(ball.y > centerY)
+			this.moveDown();
+		else if(ball.y < centerY)
+			this.moveUp();
 	}
 
 	static settings(){
